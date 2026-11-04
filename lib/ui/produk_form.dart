@@ -2,16 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/ui/produk_detail.dart';
 
 class ProdukForm extends StatefulWidget {
-  const ProdukForm({Key? key}) : super(key: key);
+  const ProdukForm({super.key});
 
   @override
-  ProdukFormState createState() => ProdukFormState();
+  State<ProdukForm> createState() => ProdukFormState();
 }
 
 class ProdukFormState extends State<ProdukForm> {
   final _kodeProdukController = TextEditingController();
   final _namaProdukController = TextEditingController();
   final _hargaProdukController = TextEditingController();
+
+  @override
+  void dispose() {
+    _kodeProdukController.dispose();
+    _namaProdukController.dispose();
+    _hargaProdukController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -6,11 +6,11 @@ class ProdukDetail extends StatelessWidget {
   final int hargaProduk;
 
   const ProdukDetail({
-    Key? key,
+    super.key,
     required this.kodeProduk,
     required this.namaProduk,
     required this.hargaProduk,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +21,9 @@ class ProdukDetail extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Kode Produk : $kodeProduk"),
-            Text("Nama Produk : $namaProduk"),
-            Text("Harga Produk : $hargaProduk"),
+            Text("Kode Produk: $kodeProduk"),
+            Text("Nama Produk: $namaProduk"),
+            Text("Harga: $hargaProduk"),
           ],
         ),
       ),

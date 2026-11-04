@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ProdukPage extends StatefulWidget {
-  const ProdukPage({Key? key}) : super(key: key);
+  const ProdukPage({super.key});
 
   @override
   ProdukPageState createState() => ProdukPageState();
