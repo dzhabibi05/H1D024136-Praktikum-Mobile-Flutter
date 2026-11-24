@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/bloc/registrasi_bloc.dart';
+import 'package:flutter_application_1/widget/success_dialog.dart';
+import 'package:flutter_application_1/widget/warning_dialog.dart';
 
 class RegistrasiPage extends StatefulWidget {
   const RegistrasiPage({Key? key}) : super(key: key);
@@ -40,7 +43,6 @@ class _RegistrasiPageState extends State<RegistrasiPage> {
     );
   }
 
-  // Membuat Textbox Nama
   Widget _namaTextField() {
     return TextFormField(
       decoration: const InputDecoration(labelText: "Nama"),
@@ -55,7 +57,6 @@ class _RegistrasiPageState extends State<RegistrasiPage> {
     );
   }
 
-  // Membuat Textbox email
   Widget _emailTextField() {
     return TextFormField(
       decoration: const InputDecoration(labelText: "Email"),
@@ -76,7 +77,6 @@ class _RegistrasiPageState extends State<RegistrasiPage> {
     );
   }
 
-  // Membuat Textbox password
   Widget _passwordTextField() {
     return TextFormField(
       decoration: const InputDecoration(labelText: "Password"),
@@ -92,7 +92,6 @@ class _RegistrasiPageState extends State<RegistrasiPage> {
     );
   }
 
-  // Membuat textbox Konfirmasi Password
   Widget _passwordKonfirmasiTextField() {
     return TextFormField(
       decoration: const InputDecoration(labelText: "Konfirmasi Password"),
@@ -107,13 +106,54 @@ class _RegistrasiPageState extends State<RegistrasiPage> {
     );
   }
 
-  // Membuat Tombol Registrasi
   Widget _buttonRegistrasi() {
     return ElevatedButton(
       child: const Text("Registrasi"),
       onPressed: () {
         var validate = _formKey.currentState!.validate();
+        if (validate) {
+          if (!_isLoading) _submit();
+        }
       },
     );
+  }
+
+  Future<void> _submit() async {
+    _formKey.currentState!.save();
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      await RegistrasiBloc.registrasi(
+        nama: _namaTextboxController.text,
+        email: _emailTextboxController.text,
+        password: _passwordTextboxController.text,
+      );
+      if (!mounted) return;
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) => SuccessDialog(
+          description: "Registrasi berhasil, silahkan login",
+          okClick: () {
+            Navigator.pop(context);
+          },
+        ),
+      );
+    } catch (error) {
+      if (!mounted) return;
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) =>
+            WarningDialog(description: error.toString()),
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 }
